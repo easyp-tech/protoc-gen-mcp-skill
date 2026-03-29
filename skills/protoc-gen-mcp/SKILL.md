@@ -115,7 +115,7 @@ Create `easyp.yaml` in your project root. This single file drives both
 
 ```yaml
 deps:
-  - repository: github.com/easyp-tech/protoc-gen-mcp
+  - github.com/easyp-tech/protoc-gen-mcp@v0.3.1
 
 lint:
   use:
@@ -143,7 +143,7 @@ generate:
 For reproducible builds, pin a specific version tag instead of `@latest`:
 
 ```yaml
-    - command: ["go", "run", "github.com/easyp-tech/protoc-gen-mcp/cmd/protoc-gen-mcp@v0.1.0"]
+    - command: ["go", "run", "github.com/easyp-tech/protoc-gen-mcp/cmd/protoc-gen-mcp@v0.3.1"]
 ```
 
 Why easyp over raw protoc:
