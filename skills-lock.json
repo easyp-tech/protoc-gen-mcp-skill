@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "vercel-skill-cli-expert": {
+      "source": "Sipki-Tech/vercel-skills",
+      "sourceType": "github",
+      "computedHash": "43d55006f5e38bc376dbf76a558d7303cc06038124de7808a12351341b55c6db"
+    }
+  }
+}

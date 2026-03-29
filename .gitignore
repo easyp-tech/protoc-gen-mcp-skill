@@ -1,0 +1,26 @@
+
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store
+*.swp
+*.swo
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+
+# Mac OS
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Skills lockfile is sometimes preferred to track, however if you only publish skills 
+# and don't install dependencies, this can be ignored or tracked.
+# We comment it out so you can choose based on needs:
+# skills-lock.json
