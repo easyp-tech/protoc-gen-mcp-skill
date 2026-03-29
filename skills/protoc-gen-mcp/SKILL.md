@@ -114,6 +114,9 @@ Create `easyp.yaml` in your project root. This single file drives both
 `protoc-gen-go` (standard Go protobuf) and `protoc-gen-mcp` (MCP bindings):
 
 ```yaml
+deps:
+  - repository: github.com/easyp-tech/protoc-gen-mcp
+
 lint:
   use:
     - PACKAGE_DEFINED
@@ -155,6 +158,9 @@ Why easyp over raw protoc:
 ```bash
 # Validate config
 easyp validate-config
+
+# Download dependencies
+easyp mod download
 
 # Lint proto files
 easyp lint -p proto -r .
