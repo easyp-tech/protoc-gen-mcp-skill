@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "protoc-gen-mcp-skill": {
+      "source": "easyp-tech/protoc-gen-mcp-skill",
+      "sourceType": "github",
+      "skillPath": "skills/protoc-gen-mcp/SKILL.md",
+      "computedHash": "df172c5e97b8c048e6af80d96681fa955d01a95b8ed4e167696ef8e0183b1280"
+    },
     "vercel-skill-cli-expert": {
       "source": "Sipki-Tech/vercel-skills",
       "sourceType": "github",

@@ -1,0 +1,25 @@
+{
+  "name": "protoc-gen-mcp-skill",
+  "description": "A Claude Code skill that teaches AI agents how to write, generate, and manage Model Context Protocol (MCP) servers using protoc-gen-mcp and easyp. Covers defining MCP tools in protobuf, generating Go bindings, implementing handlers, and MCP constraints and mappings.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Khasbulat Abdullin"
+  },
+  "homepage": "https://github.com/easyp-tech/protoc-gen-mcp-skill",
+  "repository": "https://github.com/easyp-tech/protoc-gen-mcp-skill",
+  "license": "MIT",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "protobuf",
+    "proto",
+    "go",
+    "golang",
+    "protoc-gen-mcp",
+    "easyp",
+    "code-generation",
+    "claude-code",
+    "skills",
+    "ai-agents"
+  ]
+}
