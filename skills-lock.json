@@ -5,7 +5,7 @@
       "source": "easyp-tech/protoc-gen-mcp-skill",
       "sourceType": "github",
       "skillPath": "skills/protoc-gen-mcp/SKILL.md",
-      "computedHash": "df172c5e97b8c048e6af80d96681fa955d01a95b8ed4e167696ef8e0183b1280"
+      "computedHash": "7a2faa5d5ec1dd7af35896f4454e804061b3f72c8c045690fa68696e889bdf75"
     },
     "vercel-skill-cli-expert": {
       "source": "Sipki-Tech/vercel-skills",
