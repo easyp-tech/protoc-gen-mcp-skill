@@ -31,7 +31,7 @@ npx skills add easyp-tech/protoc-gen-mcp-skill
 
 By installing this skill, your AI agent will gain expert-level understanding of:
 - **Defining MCP Tools in Protobuf:** Annotating RPC methods, types, and fields using `mcp.options.v1`.
-- **Generating Go Bindings:** Configuring `easyp.yaml` to generate `*.pb.go` and `*.mcp.go`.
+- **Generating Bindings:** Configuring EasyP v1 (`protobuf.mod`, `easyp.yaml`, `easyp.gen.yaml`) to generate `*.pb.go` and `*.mcp.go` (and the Python, Java, Kotlin and TypeScript equivalents).
 - **Implementing Handlers:** Writing the generated Go server interfaces (`<Service>ToolHandler`).
 - **MCP Constraints & Mappings:** Knowing precisely how Protobuf maps to JSON Schema validation for MCP clients.
 
