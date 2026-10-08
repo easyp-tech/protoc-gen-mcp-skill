@@ -1,6 +1,6 @@
 ---
 name: protoc-gen-mcp-skill
-description: "Build MCP servers from protobuf definitions using protoc-gen-mcp and easyp. Use when: creating an MCP server, generating MCP tools from proto files, building a proto-first MCP server in Go, Python, Java, Kotlin, TypeScript, or JavaScript, configuring easyp for MCP generation, adding MCP tool annotations to protobuf services, implementing MCP tool handlers, setting up ProtoJSON-based MCP tools, or any task involving protobuf-to-MCP code generation. Also use when the user mentions protoc-gen-mcp, mcp proto, proto mcp server, easyp mcp, or wants type-safe MCP bindings from .proto files."
+description: "Build MCP servers from protobuf definitions using protoc-gen-mcp and easyp. Use when: creating an MCP server, generating MCP tools from proto files, building a proto-first MCP server in Go, Python, Java, Kotlin, TypeScript, or JavaScript, configuring easyp (v1: protobuf.mod, easyp.yaml, easyp.gen.yaml) for MCP generation, migrating an existing easyp v0 setup, adding MCP tool annotations to protobuf services, implementing MCP tool handlers, setting up ProtoJSON-based MCP tools, or any task involving protobuf-to-MCP code generation. Also use when the user mentions protoc-gen-mcp, mcp proto, proto mcp server, easyp mcp, or wants type-safe MCP bindings from .proto files."
 ---
 
 # protoc-gen-mcp — Proto-First MCP Server Generator
@@ -17,17 +17,17 @@ Generate type-safe MCP tool bindings from annotated protobuf services for **Go, 
 
 ## Prerequisites
 
-Install [easyp](https://easyp.tech) — the recommended way to lint and generate:
+Install [easyp](https://easyp.tech) **v1**, the recommended way to lint and generate. v1 is published as nightly tags (`v1.0.0-nightly.YYYYMMDD.N`); `brew` and `go install …@latest` still install v0.17.0:
 
 ```bash
-brew install easyp-tech/tap/easyp
+EASYP_VERSION=v1.0.0-nightly.20261008.1   # pick the newest from github.com/easyp-tech/easyp/releases
+go install "github.com/easyp-tech/easyp/cmd/easyp@$EASYP_VERSION"
+easyp --version
 ```
 
-Or install from source:
+EasyP v1 uses three config files plus a lock: `protobuf.mod` (module and dependencies), `easyp.yaml` (lint policy), `easyp.gen.yaml` (plugins) and `protobuf.lock`.
 
-```bash
-go install github.com/easyp-tech/easyp/cmd/easyp@latest
-```
+**Existing project with a v0 `easyp.yaml`** (top-level `deps:`, `lint.use`, `generate.inputs`), or easyp failing with `legacy EasyP configuration detected`? Migrate first with `easyp migrate`. Follow the step-by-step procedure in the [protobuf-expert-skill](https://github.com/easyp-tech/protobuf-expert-skill) (`references/migration-v0-to-v1.md`).
 
 See https://easyp.tech/docs for full documentation.
 
@@ -103,7 +103,7 @@ message HealthResponse {
 
 ### Step 2: Choose Your Language
 
-Each language has its own `easyp.yaml` configuration and handler pattern. See the examples:
+Each language has its own EasyP configuration (`protobuf.mod`, `easyp.yaml`, `easyp.gen.yaml`) and handler pattern. See the examples:
 
 | Language | Example | Handler Style |
 |---|---|---|
@@ -119,11 +119,15 @@ Each language has its own `easyp.yaml` configuration and handler pattern. See th
 ### Step 3: Generate Code
 
 ```bash
+easyp mod tidy           # first run / after editing protobuf.mod: resolve protoc-gen-mcp and write protobuf.lock
 easyp validate-config
-easyp mod download
-easyp lint -p proto -r .
-easyp generate -p proto -r .
+easyp lint
+easyp generate           # targets come from easyp.gen.yaml (generate.paths); v1 has no -p/-r flags
 ```
+
+In CI use the committed lock exactly: `easyp --frozen mod download && easyp --frozen generate && git diff --exit-code`.
+
+The `mcp/options/v1/options.proto` import comes from the `require github.com/easyp-tech/protoc-gen-mcp vX.Y.Z` line in `protobuf.mod`. Keep that version equal to the `protoc-gen-mcp@vX.Y.Z` used in the plugin `command`.
 
 ### Step 4: Implement the Handler and Serve
 

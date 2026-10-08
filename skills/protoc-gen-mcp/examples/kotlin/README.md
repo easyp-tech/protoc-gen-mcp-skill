@@ -64,39 +64,53 @@ message HealthResponse {
 }
 ```
 
-## easyp.yaml
+## EasyP configuration (v1)
 
 Kotlin requires a dual-generation flow: Java protobuf output + Kotlin protobuf output + `lang=kotlin` MCP sidecar.
 
-```yaml
-deps:
-  - github.com/easyp-tech/protoc-gen-mcp@v0.5.0
+EasyP v1 splits the configuration into three files. Coming from a v0 `easyp.yaml` with `deps:` / `generate.inputs`? Run `easyp migrate`. See the protobuf-expert-skill migration guide.
 
-lint:
-  use:
-    - PACKAGE_DEFINED
-    - PACKAGE_LOWER_SNAKE_CASE
-    - PACKAGE_VERSION_SUFFIX
-    - RPC_NO_CLIENT_STREAMING
-    - RPC_NO_SERVER_STREAMING
+`protobuf.mod`, with module identity and dependencies:
+
+```text
+module github.com/you/myproject
+
+require github.com/easyp-tech/protoc-gen-mcp v0.7.1
+```
+
+`easyp.yaml`, with the lint policy:
+
+```yaml
+version: v1
+
+linters:
+  default: MINIMAL
+  enable: [PACKAGE_LOWER_SNAKE_CASE, PACKAGE_VERSION_SUFFIX, UNARY_RPC]
+  disable: [DIRECTORY_SAME_PACKAGE, PACKAGE_DIRECTORY_MATCH, PACKAGE_SAME_DIRECTORY]
+```
+
+`easyp.gen.yaml`, with code generation:
+
+```yaml
+version: v1
 
 generate:
-  inputs:
-    - directory:
-        path: proto
-        root: "."
-  plugins:
-    - name: java
-      with_imports: true
-      out: src/generated/main/java
-    - name: kotlin
-      out: src/generated/main/kotlin
-    - command: ["go", "run", "github.com/easyp-tech/protoc-gen-mcp/cmd/protoc-gen-mcp@v0.5.0"]
-      out: src/generated/main/kotlin
-      opts:
-        paths: source_relative
-        lang: kotlin
+  paths: [proto]
+
+plugins:
+  - name: java
+    with_imports: true
+    out: src/generated/main/java
+  - name: kotlin
+    out: src/generated/main/kotlin
+  - command: ["go", "run", "github.com/easyp-tech/protoc-gen-mcp/cmd/protoc-gen-mcp@v0.7.1"]
+    out: src/generated/main/kotlin
+    opts:
+      paths: source_relative
+      lang: kotlin
 ```
+
+Run `easyp mod tidy` once to write `protobuf.lock`, and commit it with the other files.
 
 ## Generated Files
 
