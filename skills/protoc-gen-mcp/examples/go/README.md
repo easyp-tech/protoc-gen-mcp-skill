@@ -66,34 +66,49 @@ message HealthResponse {
 }
 ```
 
-## easyp.yaml
+## EasyP configuration (v1)
+
+EasyP v1 splits the configuration into three files. Coming from a v0 `easyp.yaml` with `deps:` / `generate.inputs`? Run `easyp migrate`. See the protobuf-expert-skill migration guide.
+
+`protobuf.mod`, with module identity and dependencies:
+
+```text
+module github.com/you/myproject
+
+require github.com/easyp-tech/protoc-gen-mcp v0.7.1
+```
+
+`easyp.yaml`, with the lint policy:
 
 ```yaml
-deps:
-  - github.com/easyp-tech/protoc-gen-mcp@v0.5.0
+version: v1
 
-lint:
-  use:
-    - PACKAGE_DEFINED
-    - PACKAGE_VERSION_SUFFIX
-    - RPC_NO_CLIENT_STREAMING
-    - RPC_NO_SERVER_STREAMING
+linters:
+  default: MINIMAL
+  enable: [PACKAGE_VERSION_SUFFIX, UNARY_RPC]
+  disable: [DIRECTORY_SAME_PACKAGE, PACKAGE_DIRECTORY_MATCH, PACKAGE_SAME_DIRECTORY]
+```
+
+`easyp.gen.yaml`, with code generation:
+
+```yaml
+version: v1
 
 generate:
-  inputs:
-    - directory:
-        path: proto
-        root: "."
-  plugins:
-    - name: go
-      out: .
-      opts:
-        paths: source_relative
-    - command: ["go", "run", "github.com/easyp-tech/protoc-gen-mcp/cmd/protoc-gen-mcp@v0.5.0"]
-      out: .
-      opts:
-        paths: source_relative
+  paths: [proto]
+
+plugins:
+  - name: go
+    out: .
+    opts:
+      paths: source_relative
+  - command: ["go", "run", "github.com/easyp-tech/protoc-gen-mcp/cmd/protoc-gen-mcp@v0.7.1"]
+    out: .
+    opts:
+      paths: source_relative
 ```
+
+Run `easyp mod tidy` once to write `protobuf.lock`, and commit it with the other files.
 
 ## Generated Files
 
